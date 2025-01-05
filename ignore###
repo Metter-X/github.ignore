@@ -1,0 +1,90 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 400, 0, 200)
+frame.Position = UDim2.new(0.5, -200, 0.5, -100)
+frame.BackgroundTransparency = 1
+frame.Parent = screenGui
+
+local colors = {
+    Color3.fromRGB(255, 0, 0),
+    Color3.fromRGB(255, 127, 0),
+    Color3.fromRGB(255, 255, 0),
+    Color3.fromRGB(0, 255, 0),
+    Color3.fromRGB(0, 0, 255),
+    Color3.fromRGB(75, 0, 130),
+    Color3.fromRGB(238, 130, 238)
+}
+
+local borderSize = 5
+
+local border = Instance.new("Frame")
+border.Size = UDim2.new(1, 0, 1, 0)
+border.Position = UDim2.new(0, -borderSize, 0, -borderSize)
+border.BackgroundTransparency = 1
+border.BorderSizePixel = 0
+border.Parent = frame
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, 0, 0.3, 0)
+label.Position = UDim2.new(0, 0, 0, 10)
+label.BackgroundTransparency = 1
+label.Text = "Processing Script..."
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.TextSize = 24
+label.TextStrokeTransparency = 0.8
+label.TextWrapped = true
+label.Parent = frame
+
+local function animateDots()
+    local dots = ""
+    while true do
+        for i = 1, 3 do
+            dots = string.rep(".", i)
+            label.Text = "Processing Script" .. dots
+            wait(0.5)
+        end
+    end
+end
+
+spawn(animateDots)
+
+local progressBarBackground = Instance.new("Frame")
+progressBarBackground.Size = UDim2.new(0.8, 0, 0.1, 0)
+progressBarBackground.Position = UDim2.new(0.1, 0, 0.6, 0)
+progressBarBackground.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+progressBarBackground.BorderSizePixel = 0
+progressBarBackground.Parent = frame
+
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(0, 0, 1, 0)
+progressBar.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+progressBar.BorderSizePixel = 0
+progressBar.Parent = progressBarBackground
+
+local function updateProgressBar()
+    for i = 0, 100 do
+        progressBar.Size = UDim2.new(i / 100, 0, 1, 0)
+        wait(0.17)
+    end
+end
+
+spawn(updateProgressBar)
+
+local function rainbowBorders()
+    local index = 1
+    while true do
+        border.BackgroundColor3 = colors[index]
+        index = index + 1
+        if index > #colors then
+            index = 1
+        end
+        wait(0.1)
+    end
+end
+
+spawn(rainbowBorders)
+
+wait(17)
+screenGui:Destroy()
